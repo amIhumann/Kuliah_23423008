@@ -1,102 +1,85 @@
-Analisa :
+# Analisis
 
-Soal nomor 1
+## Soal nomor 1
 
-✅ Perbedaan Persebaran Nilai Keabuan antara Ketiga Citra
-a. Citra Asli
+## Analisis Perbedaan Persebaran Nilai Keabuan pada Ketiga Jenis Citra
 
-Persebaran nilai keabuan bergantung pada kondisi gambar awal.
+### a. Citra Asli
 
-Biasanya distribusinya tidak merata—bisa terkumpul di area gelap, cerah, atau campuran.
+Citra asli merepresentasikan distribusi nilai keabuan sebagaimana
+kondisi pencahayaan dan karakteristik objek pada saat citra diperoleh.
+Histogram citra asli umumnya menunjukkan persebaran intensitas yang
+tidak merata, yang dapat terfokus pada area gelap, area terang, atau
+tersebar pada rentang intensitas tertentu.\
+Secara konseptual, citra asli berfungsi sebagai representasi dasar
+(baseline) untuk membandingkan perubahan persebaran intensitas setelah
+diterapkan transformasi.
 
-Histogram asli menunjukkan bagaimana intensitas piksel tersebar secara alami tanpa modifikasi.
+### b. Citra Negatif
 
-Intinya: citra asli adalah baseline yang menunjukkan kondisi awal intensitas.
+Transformasi negatif merupakan operasi titik (point operation) yang
+membalikkan nilai intensitas setiap piksel menurut persamaan:
 
-b. Citra Negatif
+\[ s = L - 1 - r \]
 
-Transformasi negatif membalikkan intensitas:
+Transformasi ini menghasilkan distribusi histogram yang bersifat
+simetris terhadap histogram citra asli. Distribusi intensitas tidak
+berubah dalam hal jumlah piksel pada setiap level intensitas, namun
+posisinya dibalik secara keseluruhan.
 
-Piksel gelap → terang
+### c. Citra Logaritmik
 
-Piksel terang → gelap
+Transformasi logaritmik memodifikasi intensitas piksel menggunakan
+fungsi logaritma:
 
-Hasilnya, bentuk histogram terbalik/mirror terhadap histogram asli.
+\[ s = c `\cdot `{=tex}`\log`{=tex}(1 + r) \]
 
-Puncak histogram bergeser:
+Transformasi ini memperkuat nilai intensitas rendah dan mereduksi
+pertumbuhan nilai intensitas tinggi. Histogram citra logaritmik umumnya
+melebar pada rentang intensitas rendah dan memadat pada rentang
+intensitas tinggi.
 
-Jika citra asli dominan gelap, histogram negatif jadi dominan terang.
+### Kesimpulan Perbandingan Persebaran Intensitas
 
-Jika citra asli dominan terang, histogram negatif jadi dominan gelap.
+  -----------------------------------------------------------------------
+  Jenis Citra  Karakteristik Persebaran Intensitas
+  ------------ ----------------------------------------------------------
+  Citra Asli   Distribusi alami sesuai kondisi pengambilan citra
 
-Makna: persebaran intensitas tidak berubah secara jumlah, tetapi posisinya dibalik.
+  Citra        Distribusi intensitas dibalik secara simetris terhadap
+  Negatif      citra asli
 
-c. Citra Logaritmik
+  Citra        Intensitas rendah diperluas dan intensitas tinggi
+  Logaritmik   dipadatkan
+  -----------------------------------------------------------------------
 
-Fungsi logaritmik memperkuat intensitas rendah dan menekan intensitas tinggi.
+------------------------------------------------------------------------
 
-Histogram gambar log biasanya:
+## Kondisi di Mana Transformasi Logaritmik Lebih Efektif
 
-Melebar pada area intensitas rendah (detail gelap menjadi lebih terlihat)
+### a. Citra dengan Dominasi Intensitas Rendah
 
-Lebih rapat pada area intensitas tinggi (highlight menjadi lebih lembut)
+Transformasi logaritmik efektif untuk citra yang memiliki banyak area
+gelap atau detail tersembunyi. Teknik ini mengamplifikasi informasi
+visual sehingga struktur dan tekstur menjadi lebih terlihat.
 
-Distribusinya cenderung miring ke kanan (lebih banyak nilai sedang-terang akibat peningkatan piksel gelap).
+### b. Situasi yang Memerlukan Peningkatan Kualitas Citra
 
-Makna: log memperluas detail pada bagian gelap tanpa membuat piksel terang berlebihan.
+Transformasi negatif hanya membalik intensitas dan tidak meningkatkan
+kualitas citra. Sebaliknya, transformasi logaritmik bertujuan
+meningkatkan visibilitas detail pada area gelap.
 
-📌Kesimpulan
-Jenis Citra	Karakter Persebaran
-Asli	Distribusi natural sesuai kondisi pencahayaan
-Negatif	Distribusi dibalik secara simetris (mirror) dari citra asli
-Logaritmik	Nilai gelap diperluas, nilai terang dipadatkan—lebih banyak detail di area gelap
+### c. Citra dengan Rentang Intensitas Tidak Seimbang
 
-✅ Kapan Transformasi Logaritmik Lebih Bermanfaat Dibanding Negatif?
+Transformasi logaritmik membantu menyeimbangkan dynamic range, terutama
+ketika citra memiliki campuran area sangat gelap dan sangat terang.
 
-Transformasi logaritmik lebih bermanfaat daripada negatif ketika:
+------------------------------------------------------------------------
 
-a. Gambar Banyak Mengandung Area Gelap
+## Kesimpulan Umum
 
-Jika banyak detail kecil tersembunyi dalam bayangan/gelap, fungsi log membantu:
-
-Mengangkat detail pada intensitas rendah
-
-Membuat area gelap lebih jelas tanpa merusak bagian terang
-
-Contoh:
-
-Foto ruangan gelap
-
-Foto rontgen/medis
-
-Citra astronomi (bulan, bintang)
-
-Citra mikroskop
-
-b. Ketika ingin enhancement, bukan pembalikan
-
-Negatif hanya membalik warna—baik untuk:
-
-Analisis citra medis (kontras tertentu)
-
-Kesan visual tertentu
-
-Mendeteksi bentuk dengan kontras berlawanan
-
-Tetapi negatif tidak meningkatkan detail.
-
-Sebaliknya, transformasi log memperbaiki kualitas pada area gelap.
-
-c. Saat intensitas piksel sangat tidak seimbang
-
-Misalnya gambar yang:
-
-Terlalu gelap tetapi memiliki highlight sangat terang,
-
-Perbedaan intensitas terlalu ekstrem.
-
-Logaritmik menyeimbangkan perbedaan itu.
-
-📌 Kesimpulan
-
-Transformasi logaritmik lebih bermanfaat untuk meningkatkan detail dan kontras pada area gelap, sedangkan transformasi negatif lebih cocok jika membutuhkan pembalikan warna atau menonjolkan objek dengan kontras kebalikan dari citra asli.
+Transformasi logaritmik unggul untuk meningkatkan detail visual pada
+intensitas rendah dan memberikan peningkatan kualitas citra secara
+keseluruhan. Transformasi negatif lebih cocok untuk representasi
+alternatif berbasis kontras terbalik. Pemilihan metode harus disesuaikan
+dengan tujuan analisis citra.

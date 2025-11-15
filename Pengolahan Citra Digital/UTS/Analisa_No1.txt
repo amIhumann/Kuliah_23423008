@@ -1,14 +1,83 @@
 Analisa
-1. Perbedaan Persebaran Nilai Keabuan antara Ketiga Citra
 
-Pada citra asli, persebaran nilai keabuan mencerminkan kondisi pencahayaan dan karakteristik visual gambar sebelum dilakukan transformasi. Histogram citra asli biasanya menunjukkan distribusi yang tidak merata, di mana nilai-nilai intensitas dapat terakumulasi pada area tertentu, baik pada intensitas rendah, sedang, maupun tinggi.
+1. Analisis Perbedaan Persebaran Nilai Keabuan pada Ketiga Jenis Citra
 
-Pada citra negatif, transformasi dilakukan dengan membalikkan setiap nilai intensitas terhadap nilai maksimum (255). Akibatnya, persebaran nilai keabuan pada histogram citra negatif merupakan cerminan terbalik (mirror) dari histogram citra asli. Piksel yang semula berada pada intensitas rendah berubah menjadi intensitas tinggi, dan sebaliknya. Dengan demikian, distribusi nilai keabuan tidak berubah dalam jumlah piksel, tetapi posisi intensitasnya berpindah secara simetris.
+a. Citra Asli
 
-Berbeda dengan keduanya, citra logaritmik menunjukkan persebaran nilai keabuan yang telah dimodifikasi secara tidak linier. Transformasi logaritmik memperkuat nilai intensitas rendah dan menekan nilai intensitas tinggi. Hal ini menyebabkan histogram citra logaritmik cenderung melebar pada rentang intensitas rendah dan menyempit pada rentang intensitas tinggi. Dengan demikian, transformasi logaritmik meningkatkan detail pada area gelap tanpa menimbulkan saturasi pada area yang sudah terang.
+Citra asli merepresentasikan distribusi nilai keabuan sebagaimana
+kondisi pencahayaan dan karakteristik objek pada saat citra diperoleh.
+Histogram citra asli umumnya menunjukkan persebaran intensitas yang
+tidak merata, yang dapat terfokus pada area gelap, area terang, atau
+tersebar pada rentang intensitas tertentu.\
+Secara konseptual, citra asli berfungsi sebagai representasi dasar
+(baseline) untuk membandingkan perubahan persebaran intensitas setelah
+diterapkan transformasi.
 
-2. Kondisi di Mana Transformasi Logaritmik Lebih Bermanfaat Dibandingkan Transformasi Negatif
+b. Citra Negatif
 
-Transformasi logaritmik lebih bermanfaat ketika tujuan pengolahan citra adalah untuk meningkatkan kualitas visual pada area yang memiliki intensitas rendah. Hal ini disebabkan oleh sifat fungsi logaritmik yang mampu memperluas rentang dinamis piksel gelap sehingga detail yang sebelumnya tidak tampak dapat ditingkatkan tanpa menyebabkan kehilangan informasi pada bagian terang. Transformasi ini sangat efektif digunakan pada citra dengan pencahayaan tidak merata, citra medis, citra astronomi, atau citra ilmiah yang banyak memiliki informasi penting di area gelap.
+Transformasi negatif merupakan operasi titik (point operation) yang
+membalikkan nilai intensitas setiap piksel menurut persamaan:
 
-Sebaliknya, transformasi negatif tidak dirancang untuk peningkatan detail, melainkan untuk membalikkan intensitas citra secara langsung. Transformasi ini lebih sesuai digunakan untuk kebutuhan visual tertentu, seperti menonjolkan objek dengan kontras kebalikan, analisis pola tertentu, atau keperluan estetika dan interpretasi khusus. Oleh karena itu, transformasi logaritmik lebih unggul ketika dibutuhkan peningkatan detail pada intensitas rendah, sedangkan transformasi negatif lebih tepat digunakan jika diperlukan inversi visual dari citra asli.
+s=L−1−r
+
+Transformasi ini menghasilkan distribusi histogram yang bersifat
+simetris terhadap histogram citra asli. Distribusi intensitas tidak
+berubah dalam hal jumlah piksel pada setiap level intensitas, namun
+posisinya dibalik secara keseluruhan.
+
+c. Citra Logaritmik
+
+Transformasi logaritmik memodifikasi intensitas piksel menggunakan
+fungsi logaritma:
+
+s=c⋅log(1+r)
+
+Transformasi ini memperkuat nilai intensitas rendah dan mereduksi
+pertumbuhan nilai intensitas tinggi. Histogram citra logaritmik umumnya
+melebar pada rentang intensitas rendah dan memadat pada rentang
+intensitas tinggi.
+
+Kesimpulan Perbandingan Persebaran Intensitas
+
+  -----------------------------------------------------------------------
+  Jenis Citra  Karakteristik Persebaran Intensitas
+  ------------ ----------------------------------------------------------
+  Citra Asli   Distribusi alami sesuai kondisi pengambilan citra
+
+  Citra        Distribusi intensitas dibalik secara simetris terhadap
+  Negatif      citra asli
+
+  Citra        Intensitas rendah diperluas dan intensitas tinggi
+  Logaritmik   dipadatkan
+  -----------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+Kondisi di Mana Transformasi Logaritmik Lebih Efektif
+
+a. Citra dengan Dominasi Intensitas Rendah
+
+Transformasi logaritmik efektif untuk citra yang memiliki banyak area
+gelap atau detail tersembunyi. Teknik ini mengamplifikasi informasi
+visual sehingga struktur dan tekstur menjadi lebih terlihat.
+
+b. Situasi yang Memerlukan Peningkatan Kualitas Citra
+
+Transformasi negatif hanya membalik intensitas dan tidak meningkatkan
+kualitas citra. Sebaliknya, transformasi logaritmik bertujuan
+meningkatkan visibilitas detail pada area gelap.
+
+c. Citra dengan Rentang Intensitas Tidak Seimbang
+
+Transformasi logaritmik membantu menyeimbangkan dynamic range, terutama
+ketika citra memiliki campuran area sangat gelap dan sangat terang.
+
+------------------------------------------------------------------------
+
+Kesimpulan Umum
+
+Transformasi logaritmik unggul untuk meningkatkan detail visual pada
+intensitas rendah dan memberikan peningkatan kualitas citra secara
+keseluruhan. Transformasi negatif lebih cocok untuk representasi
+alternatif berbasis kontras terbalik. Pemilihan metode harus disesuaikan
+dengan tujuan analisis citra.
