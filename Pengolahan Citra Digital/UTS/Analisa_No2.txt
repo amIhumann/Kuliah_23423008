@@ -1,0 +1,64 @@
+Analisis Konvolusi Filter Spasial dan Domain Frekuensi
+
+=== 1. Analisis Visual dan Nilai Piksel Rata-rata ===
+
+Saat menganalisis hasil, kita bisa melihat dua hal: apa yang terlihat oleh mata (visual) dan apa yang terjadi secara matematis (nilai piksel rata-rata). Nilai piksel rata-rata (rata-rata dari semua nilai piksel) adalah indikator yang baik untuk kecerahan (brightness) global dari sebuah gambar.
+
+Citra Original
+- Visual: Ini adalah gambar referensi kita. Ia memiliki keseimbangan antara area yang mulus (seperti latar belakang) dan area yang detail atau memiliki tepi yang tajam.
+- Piksel Rata-rata: Kita sebut ini sebagai B_original (Baseline).
+
+Hasil 1: Low Pass Filter (LPF)
+- Kernel: (1/9) * [[1,1,1],[1,1,1],[1,1,1]]
+- Analisis Visual: Gambar terlihat kabur (blur) atau lebih halus (smoothed). Semua detail tajam, tekstur, dan bintik (noise) menjadi sangat berkurang. Ini terjadi karena nilai setiap piksel baru adalah hasil rata-rata dari 9 piksel di sekitarnya. Perbedaan nilai yang tajam (tepi) menjadi "diratakan" dengan tetangganya.
+- Analisis Piksel Rata-rata:
+    - Jumlah total dari semua elemen di kernel LPF adalah (1/9) * 9 = 1.
+    - Kernel yang jumlah totalnya 1 disebut unity-gain filter. Properti utamanya adalah mempertahankan kecerahan global gambar.
+    - Hasil: Nilai piksel rata-rata B_lpf akan hampir identik dengan B_original. Gambar tidak menjadi lebih gelap atau lebih terang secara keseluruhan, hanya lebih buram.
+
+Hasil 2: High Pass Filter (HPF)
+- Kernel: [[-1,-1,-1],[-1,8,-1],[-1,-1,-1]]
+- Analisis Visual: Gambar hasil akan terlihat dominan gelap (mendekati hitam). Satu-satunya hal yang akan terlihat terang adalah tepi-tepi (edges) atau area di mana ada perubahan warna/intensitas yang sangat drastis. Area yang seragam (datar) akan menjadi hitam.
+- Analisis Piksel Rata-rata:
+    - Jumlah total dari semua elemen di kernel HPF adalah (-1 * 8) + 8 = 0.
+    - Kernel yang jumlah totalnya 0 memiliki efek menghilangkan komponen DC (frekuensi nol), yang dalam citra merepresentasikan kecerahan rata-rata.
+    - Hasil: Nilai piksel rata-rata B_hpf akan mendekati nol. Inilah mengapa gambarnya terlihat sangat gelap; kecerahan globalnya telah dihapus, dan yang tersisa hanyalah informasi tentang perubahan.
+
+Hasil 3: Band Pass Filter (BPF) / Penajaman
+- Kernel: [[0,-1,0],[-1,5,-1],[0,-1,0]]
+- Analisis Visual: Gambar terlihat lebih tajam (sharper) dan lebih jernih dibandingkan gambar aslinya. Tepi-tepi objek tampak lebih tegas, dan detail-detail kecil menjadi lebih menonjol.
+- Analisis Piksel Rata-rata:
+    - Jumlah total dari semua elemen di kernel BPF adalah (-1 * 4) + 5 = 1.
+    - Sama seperti LPF, karena jumlahnya 1, filter ini mempertahankan kecerahan global.
+    - Hasil: Nilai piksel rata-rata B_bpf akan hampir identik dengan B_original.
+    - Mengapa bisa menajamkan? Kernel ini sebenarnya adalah gabungan:
+      [0, -1, 0]   [0, 0, 0]   [0, -1, 0]
+      [-1, 5, -1] = [0, 1, 0] + [-1, 4, -1]
+      [0, -1, 0]   [0, 0, 0]   [0, -1, 0]
+      (Citra Asli) + (Filter High Pass)
+      
+      Ini berarti: Hasil = Citra Original + (Hasil High Pass Filter). Secara sederhana, filter ini mengambil gambar asli lalu "menambahkan" detail tepinya (yang didapat dari HPF), sehingga membuat tepi tersebut "menonjol" dan menghasilkan efek penajaman.
+
+=== 2. Hubungan Domain Spasial dan Domain Frekuensi ===
+
+- Domain Spasial: Ini adalah domain (x, y) tempat kita biasa melihat gambar. Operasi konvolusi dengan kernel adalah operasi di domain spasial.
+- Domain Frekuensi: Ini adalah cara lain merepresentasikan gambar (biasanya lewat Transformasi Fourier) sebagai kumpulan gelombang sinus dengan frekuensi berbeda.
+    - Frekuensi Rendah: Mewakili area yang perubahannya lambat dan mulus (misal: langit, dinding polos). Ini adalah struktur utama gambar.
+    - Frekuensi Tinggi: Mewakili area yang perubahannya cepat (misal: tepi, garis, tekstur, bintik noise). Ini adalah detail gambar.
+
+Setiap filter yang Anda terapkan di domain spasial memiliki efek komplementer di domain frekuensi:
+
+Low Pass Filter (LPF)
+- Domain Spasial: Melakukan rata-rata (averaging). Operasi ini menghaluskan (smoothes) perubahan nilai piksel yang drastis.
+- Domain Frekuensi: Karena "menghaluskan" berarti "menghilangkan detail tajam", filter ini secara efektif meredam (attenuates) komponen frekuensi tinggi (detail, noise) dan meloloskan (passes) komponen frekuensi rendah (area mulus). Inilah asal mula namanya: Low Pass.
+
+High Pass Filter (HPF)
+- Domain Spasial: Melakukan diferensiasi (pencarian perbedaan). Kernel ini (varian dari kernel Laplacian) menghitung perbedaan antara piksel pusat dan tetangganya. Jika tidak ada perbedaan (area datar), hasilnya nol. Jika perbedaannya besar (tepi), hasilnya bernilai tinggi.
+- Domain Frekuensi: Karena hanya "merespons" pada perubahan cepat (tepi), filter ini secara efektif meredam komponen frekuensi rendah (area mulus, kecerahan global) dan meloloskan komponen frekuensi tinggi (detail, tepi).
+
+Band Pass Filter (BPF) / Penajaman
+- Domain Spasial: Seperti yang dijelaskan, ini adalah Original + HPF. Operasi ini mengambil citra asli dan "meningkatkan" (boosts) detail tepinya.
+- Domain Frekuensi:
+    - Citra Original meloloskan semua frekuensi (rendah dan tinggi).
+    - HPF meloloskan hanya frekuensi tinggi.
+    - Hasil (Original + HPF): Filter ini meloloskan frekuensi rendah (dari citra asli) dan meningkatkan (boosts) frekuensi tinggi (dari penjumlahan HPF). Efek boosting pada frekuensi tinggi inilah yang secara visual kita lihat sebagai penajaman.
