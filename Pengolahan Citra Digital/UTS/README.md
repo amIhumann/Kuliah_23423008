@@ -32,7 +32,7 @@ posisinya dibalik secara keseluruhan.
 Transformasi logaritmik memodifikasi intensitas piksel menggunakan
 fungsi logaritma:
 
-\[ s = c `\cdot `{=tex}`\log`{=tex}(1 + r) \]
+\[ s = c . log(1 + r) \]
 
 Transformasi ini memperkuat nilai intensitas rendah dan mereduksi
 pertumbuhan nilai intensitas tinggi. Histogram citra logaritmik umumnya
