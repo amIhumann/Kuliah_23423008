@@ -1,0 +1,14 @@
+Analisa
+1. Perbedaan Persebaran Nilai Keabuan antara Ketiga Citra
+
+Pada citra asli, persebaran nilai keabuan mencerminkan kondisi pencahayaan dan karakteristik visual gambar sebelum dilakukan transformasi. Histogram citra asli biasanya menunjukkan distribusi yang tidak merata, di mana nilai-nilai intensitas dapat terakumulasi pada area tertentu, baik pada intensitas rendah, sedang, maupun tinggi.
+
+Pada citra negatif, transformasi dilakukan dengan membalikkan setiap nilai intensitas terhadap nilai maksimum (255). Akibatnya, persebaran nilai keabuan pada histogram citra negatif merupakan cerminan terbalik (mirror) dari histogram citra asli. Piksel yang semula berada pada intensitas rendah berubah menjadi intensitas tinggi, dan sebaliknya. Dengan demikian, distribusi nilai keabuan tidak berubah dalam jumlah piksel, tetapi posisi intensitasnya berpindah secara simetris.
+
+Berbeda dengan keduanya, citra logaritmik menunjukkan persebaran nilai keabuan yang telah dimodifikasi secara tidak linier. Transformasi logaritmik memperkuat nilai intensitas rendah dan menekan nilai intensitas tinggi. Hal ini menyebabkan histogram citra logaritmik cenderung melebar pada rentang intensitas rendah dan menyempit pada rentang intensitas tinggi. Dengan demikian, transformasi logaritmik meningkatkan detail pada area gelap tanpa menimbulkan saturasi pada area yang sudah terang.
+
+2. Kondisi di Mana Transformasi Logaritmik Lebih Bermanfaat Dibandingkan Transformasi Negatif
+
+Transformasi logaritmik lebih bermanfaat ketika tujuan pengolahan citra adalah untuk meningkatkan kualitas visual pada area yang memiliki intensitas rendah. Hal ini disebabkan oleh sifat fungsi logaritmik yang mampu memperluas rentang dinamis piksel gelap sehingga detail yang sebelumnya tidak tampak dapat ditingkatkan tanpa menyebabkan kehilangan informasi pada bagian terang. Transformasi ini sangat efektif digunakan pada citra dengan pencahayaan tidak merata, citra medis, citra astronomi, atau citra ilmiah yang banyak memiliki informasi penting di area gelap.
+
+Sebaliknya, transformasi negatif tidak dirancang untuk peningkatan detail, melainkan untuk membalikkan intensitas citra secara langsung. Transformasi ini lebih sesuai digunakan untuk kebutuhan visual tertentu, seperti menonjolkan objek dengan kontras kebalikan, analisis pola tertentu, atau keperluan estetika dan interpretasi khusus. Oleh karena itu, transformasi logaritmik lebih unggul ketika dibutuhkan peningkatan detail pada intensitas rendah, sedangkan transformasi negatif lebih tepat digunakan jika diperlukan inversi visual dari citra asli.
