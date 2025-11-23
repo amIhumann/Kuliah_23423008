@@ -218,9 +218,3 @@ Dari seluruh rangkaian implementasi, diperoleh beberapa kesimpulan:
 3. Multithreaded server memungkinkan banyak client aktif dan mendukung broadcast.
 4. Timeout sangat penting untuk mencegah client menggantung terlalu lama saat koneksi bermasalah.
 5. Pemahaman mengenai kondisi *connection refused* dan *timeout* sangat diperlukan agar dapat menguji sistem secara benar.
-
-Dengan mengikuti langkah-langkah yang telah dijelaskan, seluruh output yang diharapkan dapat dicapai sesuai instruksi pada soal.
-
----
-
-Jika diperlukan, saya bisa membantu membuat **versi PDF**, **versi laporan formal**, atau **diagram alur TCP**.
